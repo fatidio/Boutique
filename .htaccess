@@ -1,0 +1,33 @@
+AuthName "Page d'administration protégée"
+AuthType Basic
+AuthUserFile "C:/xampp/htdocs/Boutique/.htpasswd"
+Require valid-user
+
+AddDefaultCharset UTF-8
+AddCharset UTF-8 .html .css .js .php
+
+ErrorDocument 404 /404.php
+ErrorDocument 403 /403.php
+ErrorDocument 500 /500.php
+
+RewriteEngine on 
+RewriteRule ^(.*)-([0-9]+)\.php ./detail.php?id=$2 [L]
+# tout ce qui commence par (n'importe quoi)-(un nombre).html
+#Order allow,deny
+#Deny from all
+<FilesMatch "\.(htaccess|htpasswd|htgroup)$">
+Deny from all
+</FilesMatch>
+
+
+Options +FollowSymlinks
+RewriteEngine on
+RewriteBase /
+ 
+#url rewriting
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php
+<Files index.php>
+require valid-user
+</Files>
